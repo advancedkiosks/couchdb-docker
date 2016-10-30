@@ -12,7 +12,14 @@ fi
 HOSTNAME=$(hostname)
 LOCAL_IP=$(grep ${HOSTNAME} /etc/hosts | cut -f1)
 
-curl -X PUT "http://${MASTER}:5984/_nodes/${HOSTNAME}@${LOCAL_IP}" -d {}
+# Configure local node as a cluster node
+SETUP_JSON="{ \"action\" : \"enable_cluster\", \"bind_address\" : \"0.0.0.0\", \"username\" : \"admin\", \"password\" : \"password\" }"
 
+curl -X POST http://localhost:5984/_cluster_setup -d "${SETUP_JSON}" -H "Content-Type: application/json"
+
+# Configure the local node on the replicant
+JSON="{ \"action\" : \"add_node\", \"host\" : \"${LOCAL_IP}\", \"port\" : 5984, \"username\" : \"admin\", \"password\" : \"password\" }"
+
+curl -X POST http://${MASTER}:5984/_cluster_setup -d "${JSON}" -H "Content-Type: application/json" --user admin:password
 
 

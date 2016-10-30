@@ -4,7 +4,7 @@ services:
   primary:
     image: mikeyyuen/couchdb:latest
     ports:
-      - 5985:5984
+      - 5984:5984
   replicant:
     image: mikeyyuen/couchdb:latest
     depends_on:
