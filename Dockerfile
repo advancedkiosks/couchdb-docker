@@ -1,7 +1,7 @@
 FROM klaemo/couchdb:latest
 MAINTAINER Michael Yuen <michael.yuen@mac.com>
 
-EXPOSE 5984 5986 4369
+EXPOSE 5984 9100
 
 COPY local.ini /opt/couchdb/etc/local.ini
 COPY vm.args.template /opt/couchdb/etc/vm.args.template
